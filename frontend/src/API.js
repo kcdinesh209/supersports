@@ -1,13 +1,13 @@
 import axios from 'axios';
-const LOGIN_USER_KEY = 'WD_FORUM_LOGIN_USER_KEY';
+const LOGIN_USER_KEY = 'LOGIN_USER_KEY';
 
 var baseURL;
 // if (process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT === 'PRODUCTION') {
 //     baseURL = process.env.REACT_APP_API_BASE_URL;
 // } else {
-//     baseURL = 'http://127.0.0.1:8000';
+baseURL = 'http://127.0.0.1:8000';
 // }
-baseURL= 'https://backend-dinesh.herokuapp.com/';
+// baseURL= '';
 const api = axios.create({
     baseURL: baseURL,
     headers: {
@@ -32,6 +32,54 @@ api.interceptors.request.use(
 );
 
 export default class API {
+    //////////////////////////
+    // Users
+    //////////////////////
+    signUp = async (user_name, email, password) => {
+        const savedPost = await api
+            .post('/users/signup/', {
+                user_name: user_name,
+                email: email,
+                password: password
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+        return savedPost;
+    };
+    signIn = async (email, password) => {
+        const savedPost = await api
+            .post('/users/signin/', {
+                email: email,
+                password: password
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+        return savedPost;
+    };
+    getUsers = async () => {
+        const posts = await api
+            .get('/users/')
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+        return posts;
+    };
+    
+    ////////////////////////////
+    // Reference Post
+    ////////////////////////
+
     getPosts = params => {
         return api
             .get('/posts/', { params })

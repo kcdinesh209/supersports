@@ -1,87 +1,75 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Loading from '../assets/img/loading.gif';
-import postImage from '../assets/img/newspaper-icon-png.jpg';
-import PostForm from '../components/Posts/PostForm';
-import Post from '../components/Posts/Post';
-import { fetchPosts } from '../reducks/posts/operations';
-import { getPosts } from '../reducks/posts/selectors';
+import React from 'react';
+import background from '../assets/img/background.png';
+import batball from '../assets/img/batball.png';
+import football from    '../assets/img/football.png';
+import hockey from  '../assets/img/hocky.png';
+import badminton from   '../assets/img/badminton.png'
 
-const Home = () => {
-    const dispatch = useDispatch();
-    const selector = useSelector(state => state);
-    const posts = getPosts(selector);
-    let [page, setPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        dispatch(fetchPosts({ page }));
-        // eslint-disable-next-line
-    }, []);
-
-    // Infinite Scroll Pagination Flow
-    const observer = useRef();
-
-    // Reference to a very last post element
-    const lastPostElement = useCallback(
-        node => {
-            if (isLoading) return;
-            // Disconnect reference from previous element, so that new last element is hook up correctly
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-
-            // Observe changes in the intersection of target element
-            observer.current = new IntersectionObserver(async entries => {
-                // That means that we are on the page somewhere, In our case last element of the page
-                if (entries[0].isIntersecting && posts.next) {
-                    // Proceed fetch new page
-                    setIsLoading(true);
-                    setPage(++page);
-                    await dispatch(fetchPosts({ page }));
-                    setIsLoading(false);
-                }
-            });
-
-            // Reconnect back with the new last post element
-            if (node) {
-                observer.current.observe(node);
-            }
-        },
-        // eslint-disable-next-line
-        [posts.next]
-    );
-
+function Home() {
     return (
-        <section className="content">
-            <PostForm />
-            <section className="posts">
-                {posts.results.length > 0 ? (
-                    <ul>
-                        {posts.results.map((post, index) => {
-                            return (
-                                <Post
-                                    ref={index === posts.results.length - 1 ? lastPostElement : null}
-                                    key={post.id}
-                                    post={post}
-                                />
-                            );
-                        })}
-                    </ul>
-                ) : (
-                    <div className="no-post">
-                        <img width="72" src={postImage} alt="icon" />
-                        <p>No posts here yet...</p>
-                    </div>
-                )}
-                {isLoading && (
-                    <div className="loading">
-                        <img src={Loading} className="" alt="" />
-                    </div>
-                )}
+        <div>
+            <section class="background">
+                <img src={background} alt="" />
+                {/* <img src="img/background01.png" alt="" /> */}
             </section>
-        </section>
+            <section class="text">
+                <ul class="food-items">
+                    <li class="row">
+                        <img src={batball} alt=""/>
+                        {/* <img src="img/batball.png" class="food-image" alt="" /> */}
+                        <div class="info">
+                            <div class="name">
+                                Nike <br /> Runner Orange
+                            </div>
+                            <div class="info-bottom">
+                                <div class="price">$ 380</div>
+                                <button class="add"> Add +</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <img src={football} alt=""/>
+                        {/* <img src="img/football.png" class="food-image" alt="" /> */}
+                        <div class="info">
+                            <div class="name">
+                                Nike <br /> Track Suit Pink
+                            </div>
+                            <div class="info-bottom">
+                                <div class="price">$ 1000</div>
+                                <button class="add"> Add +</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <img src={hockey} alt="" />
+                        {/* <img src="img/hocky.png" class="food-image" alt="" /> */}
+                        <div class="info">
+                            <div class="name">
+                                Nike <br /> Flex Runner
+                            </div>
+                            <div class="info-bottom">
+                                <div class="price">$ 1000</div>
+                                <button class="add"> - 1 +</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <img src={badminton} alt="" />
+                        {/* <img src="img/badminton.png" class="food-image" alt="" /> */}
+                        <div class="info">
+                            <div class="name">
+                                Nike <br /> Black track pants{' '}
+                            </div>
+                            <div class="info-bottom">
+                                <div class="price">$ 300</div>
+                                <button class="add"> Add +</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
     );
-};
+}
 
 export default Home;
