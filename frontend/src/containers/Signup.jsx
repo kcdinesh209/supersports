@@ -1,100 +1,83 @@
-import React from 'react';
-import background from '../assets/img/background.png';
-import batball from '../assets/img/batball.png';
-import football from '../assets/img/football.png';
-import hockey from '../assets/img/hocky.png';
-import badminton from '../assets/img/badminton.png';
-import cross from '../assets/img/cross01.svg';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { signUp } from "../reducks/users/operations";
+import Cross from "../assets/img/cross01.svg";
+import Home from "../containers/Home";
+import { push } from "connected-react-router";
 
-function Signup() {
-    return (
-        <div>
-            <section class="background">
-                <img src={background} alt="" />
-                {/* <img src="img/background01.png" alt="" /> */}
-            </section>
-            <section class="text">
-                <ul class="food-items">
-                    <li class="row">
-                        <img src={batball} alt="" />
-                        {/* <img src="img/batball.png" class="food-image" alt> */}
-                        <div class="info">
-                            <div class="name">
-                                Nike <br /> Runner Orange
-                            </div>
-                            <div class="info-bottom">
-                                <div class="price">$ 380</div>
-                                <button class="add"> Add +</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="row">
-                        <img src={football} alt="" />
-                        {/* <img src="img/football.png" class="food-image" alt> */}
-                        <div class="info">
-                            <div class="name">
-                                Nike <br /> Track Suit Pink
-                            </div>
-                            <div class="info-bottom">
-                                <div class="price">$ 1000</div>
-                                <button class="add"> Add +</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="row">
-                        <img src={hockey} alt="" />
-                        {/* <img src="img/hocky.png" class="food-image" alt> */}
-                        <div class="info">
-                            <div class="name">
-                                Nike <br /> Flex Runner
-                            </div>
-                            <div class="info-bottom">
-                                <div class="price">$ 1000</div>
-                                <button class="add"> - 1 +</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="row">
-                        <img src={badminton} alt="" />
-                        {/* <img src="img/badminton.png" class="food-image" alt> */}
-                        <div class="info">
-                            <div class="name">
-                                Nike <br /> Black track pants{' '}
-                            </div>
-                            <div class="info-bottom">
-                                <div class="price">$ 300</div>
-                                <button class="add"> Add +</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-            <section class="popup">
-                <div class="popup-inner">
-                    <img src={cross} alt="" />
-                    {/* <img src="img/cross01.svg" class="cross" alt=""> */}
-                    <h1 class="heading"> SuperSports </h1>
-                    <h2>SIGN UP</h2>
-                    <div class="popup-input">
-                        <input type="name" required placeholder="Name" />
-                        <br />
-                        <br />
-                        <input type="email" required placeholder="Email-address" />
-                        <br />
-                        <br />
-                        <input type="password" required placeholder="Password" />
-                        <br /> <br />
-                        <button>SIGN UP</button>
-                        <br />
-                        <br />
-                        <p>
-                            Already a Member? <a href="./login.html">sign in</a>
-                        </p>
-                    </div>
-                </div>
-            </section>
+const SignUp = () => {
+  const dispatch = useDispatch();
+
+  const closeButton = () => {
+    dispatch(push("/"));
+  };
+  const [user_name, setUserName] = useState(""),
+    [email, setEmail] = useState(""),
+    [password, setPassword] = useState("");
+  const inputUserName = (event) => {
+    setUserName(event.target.value);
+  };
+  const inputEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  const inputPassword = (event) => {
+    setPassword(event.target.value);
+  };
+  const signUpButton = () => {
+    dispatch(signUp(user_name, email, password));
+    setUserName("");
+    setEmail("");
+    setPassword("");
+  };
+  return (
+    <>
+      <Home />
+      <section class="popup">
+        <div class="popup-inner">
+          <img src={Cross} onClick={closeButton} class="cross" alt="" />
+          <h1 class="heading"> SuperSports </h1>
+          <h2>SIGN UP</h2>
+          <div class="popup-input">
+            <input
+              type="name"
+              required
+              placeholder="Name"
+              onChange={inputUserName}
+              name="user_name"
+              value={user_name}
+            />
+            <br />
+            <br />
+            <input
+              type="email"
+              required
+              placeholder="Email-address"
+              onChange={inputEmail}
+              name="email"
+              value={email}
+            />
+            <br />
+            <br />
+            <input
+              type="password"
+              onChange={inputPassword}
+              required
+              placeholder="Password"
+              name="psw"
+              value={password}
+            />
+            <br /> <br />
+            <button onClick={signUpButton}>SIGN UP</button>
+            <br />
+            <br />
+            <p>
+              New Member <a href="/signin">Sign In</a>
+            </p>
+          </div>
         </div>
-    );
-}
+      </section>
+    </>
+  );
+};
 
-export default Signup;
+export default SignUp;

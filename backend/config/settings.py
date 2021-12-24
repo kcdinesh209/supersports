@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
+import django_on_heroku
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -31,7 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
-#CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://forum-prod-frontend.herokuapp.com']
+# CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000',
+#                         ]
 
 # Application definition
 
@@ -47,9 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.posts',
     'apps.users',
-    'apps.items',
-    'apps.orders',
     'apps.carts',
+    'apps.orders',
+    'apps.items',
     'cloudinary',
     'django_filters',
 ]
@@ -91,6 +92,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # Heroku Database
+
+#Local Database
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -102,16 +114,9 @@ DATABASES = {
     }
 }
 
-# Local Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # Heroku PostgreSQL Database
-django_heroku.settings(locals())
+django_on_heroku.settings(locals())
 
 
 # Password validation
@@ -162,11 +167,8 @@ cloudinary.config(
     cloud_name="dphfht5z8",
     api_key="459799282694719",
     api_secret="PVXBpMeEtLSfmJNbAJgwNy3OLOI",
-    secure=True
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }

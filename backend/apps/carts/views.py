@@ -10,9 +10,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Cart
 from .forms import CartForm
 
-# Create your views here.
-
-
 class CartList(CustomLoginRequiredMixin, generics.ListAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer

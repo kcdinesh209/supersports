@@ -12,7 +12,6 @@ from .forms import OrderForm, OrderItemForm
 import json
 
 # Create your views here.
-
 class OrderAdd(CustomLoginRequiredMixin, generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -47,4 +46,3 @@ class OrderAdd(CustomLoginRequiredMixin, generics.CreateAPIView):
             
         serializer = OrderSerializer([order], many=True)
         return Response(serializer.data[0])
-

@@ -1,9 +1,7 @@
 from django.db import models
 from apps.items.models import Item
 from apps.users.models import User
-# from config.constants import *
-
-# Create your models here.
+from config.constants import *
 
 
 class Order(models.Model):
@@ -68,3 +66,6 @@ class OrderItem(models.Model):
     updated_at = models.DateTimeField(
         'Updated At', blank=True, auto_now=True
     )
+
+    
+

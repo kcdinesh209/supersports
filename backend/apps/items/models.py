@@ -1,18 +1,18 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
-# from config.constants import *
+from config.constants import *
 
-# Create your models here.
+
 class Item(models.Model):
     class Meta(object):
         db_table = 'item'
 
     status = models.CharField(
-        'status',blank=False,default='inactive',max_length=15,db_index=True
+        'status', blank=False, default='inactive', max_length=15, db_index=True, choices=STATUS
     )
 
-    name= models.CharField(
-        'Name',blank=False,null=False, max_length=20, db_index=True, default='Anonymous'
+    name = models.CharField(
+        'Name', blank=False, null=False, max_length=20, db_index=True, default='Anonymous'
     )
     description = models.CharField(
         'Description', blank=False, null=False, max_length=50, db_index=True, default='Anonymous'
@@ -32,5 +32,5 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
-    
 
+# Create your models here.
